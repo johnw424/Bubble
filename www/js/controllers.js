@@ -1,7 +1,7 @@
 angular.module('chatRoom.controllers', [])
 
 .controller('RoomListCtrl', function($scope, $timeout, $firebase, $location) {
-  var ref = new Firebase('https://chatroom-io.firebaseio.com/opened_rooms');  
+  var ref = new Firebase('https://bubblechat.firebaseio.com/opened_rooms');  
   $scope.rooms = $firebase(ref);
 
   $scope.rightButtons = [
@@ -15,18 +15,18 @@ angular.module('chatRoom.controllers', [])
   ];
 
   $scope.leftButtons = [
-    {
+    { 
       type: 'button-energized',
       content: '<i class="icon ion-arrow-left-c"></i>',
       tap: function(e) {
-        $location.path("/about");
+        $location.path('/about');
       }
     }
-  ];
+  ]
 })
 
 .controller('RoomCreateCtrl', function($scope, $timeout, $firebase, $location) {
-  var ref = new Firebase('https://chatroom-io.firebaseio.com/opened_rooms');  
+  var ref = new Firebase('https://bubblechat.firebaseio.com/opened_rooms');  
   $scope.rooms = $firebase(ref);
 
   $scope.createRoom = function(roomName, roomDescription) {
@@ -45,20 +45,20 @@ angular.module('chatRoom.controllers', [])
   };
 
   $scope.leftButtons = [
-    {
+    { 
       type: 'button-energized',
       content: '<i class="icon ion-arrow-left-c"></i>',
       tap: function(e) {
-        $location.path("/");
+        $location.path('/');
       }
     }
-  ];
+  ]
 })
 
 
 .controller('RoomCtrl', function($scope, $stateParams, $timeout, $firebase, $location, $ionicScrollDelegate) {
-  var roomRef = new Firebase('https://chatroom-io.firebaseio.com/opened_rooms/');
-  var messagesRef = new Firebase('https://chatroom-io.firebaseio.com/rooms/' + $stateParams.roomId);
+  var roomRef = new Firebase('https://bubblechat.firebaseio.com/opened_rooms/');
+  var messagesRef = new Firebase('https://bubblechat.firebaseio.com/rooms/' + $stateParams.roomId);
 
   $scope.newMessage = "";
   $scope.roomsObj = $firebase(roomRef);
