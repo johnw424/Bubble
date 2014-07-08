@@ -127,7 +127,6 @@ angular.module('chatRoom.controllers', ['chatRoom.services'])
       if ($scope.room) return;
       if (room.id == $stateParams.roomId) {
         $scope.room = room;
-        $scope.room.header = room.title + ' (' + room.location + ')';
       };
     });
   }, true);

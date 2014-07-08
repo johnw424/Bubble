@@ -1,5 +1,5 @@
 <header-bar
-  title="room.header"
+  title="room.title"
   left-buttons="leftButtons"
   right-buttons="rightButtons"
   type="bar-energized"
@@ -14,17 +14,17 @@
     refresh-complete="refreshComplete"
     animate-nav="true"
     has-header="true"
+    has-footer="true"
     >
 
-    <div ng-repeat="message in messages | orderBy:'created_at'" type="item-text-wrap" ng-show="message.content">
-      <div class="item item-body message">
-        <div class="row">
-          <div class="col col-10 author">{{message.created_by}}</div>
-          <div class="col content">{{message.content}}</div>
-          <div class="col col-10 time">{{message.created_at | dateToday: 'short' }}</div>
-        </div>
-      </div>
-    </div>
+    <list>
+      <item ng-repeat="message in messages | orderBy:'created_at'" type="item-text-wrap" ng-show="message.content">
+        <h4 class="author">{{message.created_by}}</h4>
+        <p class="content">{{message.content}}</p>
+        <h5 class="time">{{message.created_at | dateToday: 'short' }}</h5>
+      </item>
+    </list>
+
   </content>
 
   <div class="bar bar-footer bar-stable" id="bar-footer-message-box">
