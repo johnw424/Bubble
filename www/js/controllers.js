@@ -1,4 +1,4 @@
-angular.module('chatRoom.controllers', [])
+angular.module('chatRoom.controllers', ['chatRoom.services'])
 
 .controller('RoomListCtrl', function($scope, $timeout, $firebase, $location) {
   var ref = new Firebase('https://bubblechat.firebaseio.com/opened_rooms');  
@@ -25,24 +25,45 @@ angular.module('chatRoom.controllers', [])
   ]
 })
 
-.controller('RoomCreateCtrl', function($scope, $timeout, $firebase, $location) {
+.controller('RoomCreateCtrl', function($scope, $timeout, $firebase, $location, Geo) {
   var ref = new Firebase('https://bubblechat.firebaseio.com/opened_rooms');  
   $scope.rooms = $firebase(ref);
+  
+  $scope.currentLocationString = '';
+  
+  $scope.getLocationString = function() {
+    console.log('called');
+    Geo.getLocation().then(function(position) {
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+
+      Geo.reverseGeocode(lat, lng).then(function(locString) {
+        $scope.currentLocationString = locString;
+      });
+    }, function(error) {
+      alert('Unable to get current location: ' + error);
+    });
+  };
+
 
   $scope.createRoom = function(roomName, roomDescription) {
     if (!roomName) return;
       
     var roomId = Math.floor(Math.random() * 5000001);
-      
+    
     $scope.rooms.$add({
       id: roomId,
       title: roomName,
       slug: roomName.split(/\s+/g).join('-'),
-      description: roomDescription
+      description: roomDescription,
+      location: $scope.currentLocationString
     });
     
     $location.path('/rooms/' + roomId);
   };
+  
+  console.log('didnt call');
+  $scope.getLocationString();  
 
   $scope.leftButtons = [
     { 
@@ -52,7 +73,7 @@ angular.module('chatRoom.controllers', [])
         $location.path('/');
       }
     }
-  ]
+  ];
 })
 
 
@@ -64,6 +85,7 @@ angular.module('chatRoom.controllers', [])
   $scope.roomsObj = $firebase(roomRef);
   $scope.messagesObj = $firebase(messagesRef);
   $scope.username = 'User' + Math.floor(Math.random() * 501);
+
 
   $scope.leftButtons = [
     { 
@@ -105,10 +127,11 @@ angular.module('chatRoom.controllers', [])
       if ($scope.room) return;
       if (room.id == $stateParams.roomId) {
         $scope.room = room;
+        $scope.room.header = room.title + ' (' + room.location + ')';
       };
     });
   }, true);
-    
+
   $scope.submitAddMessage = function() {
     $scope.messagesObj.$add({
       created_by: this.username,
@@ -132,4 +155,6 @@ angular.module('chatRoom.controllers', [])
     }
   ];
 })
-.controller('AppCtrl', function($scope, $state) {});
+
+.controller('AppCtrl', function($scope, $state) {
+});

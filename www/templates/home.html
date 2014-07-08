@@ -1,4 +1,5 @@
 <header-bar
+  class="bar bar-header"
   title="'Home'"
   left-buttons="leftButtons"
   right-buttons="rightButtons"
@@ -9,7 +10,7 @@
   <content has-header="true">
     <list>
       <item ng-repeat="room in rooms" type="item-text-wrap" href="#/rooms/{{room.id}}" ng-if="room.title">
-        <h3>{{room.title}}</h3>
+        <h3>{{room.title}} ({{room.location}})</h3>
         <p>{{room.description}}</p>
       </item>
     </list>

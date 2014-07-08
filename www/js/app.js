@@ -1,5 +1,9 @@
 angular.module('chatRoom', ['ionic', 'chatRoom.services', 'chatRoom.filters', 'chatRoom.controllers', 'firebase'])
 
+// .run(function(){
+//   ionic.Platform.fullScreen();
+// })
+
 .config(function ($compileProvider){
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
@@ -34,4 +38,3 @@ angular.module('chatRoom', ['ionic', 'chatRoom.services', 'chatRoom.filters', 'c
   $urlRouterProvider.otherwise('/home');
 
 });
-
